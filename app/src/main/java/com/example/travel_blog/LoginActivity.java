@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            mausmi.setLogIn(true);
+
             //your code
             startMainActivity();
             finish();
