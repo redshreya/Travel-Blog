@@ -8,27 +8,34 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 public class BlogDetailsActivity extends AppCompatActivity {
     public static final String IMAGE_URL ="https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3436e16367c8ec2312a0644bebd2694d484eb047/images/sydney_image.jpg";
     public static final String AVATAR_URL = "https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3436e16367c8ec2312a0644bebd2694d484eb047/avatars/avatar1.jpg";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_details);
 
-        ImageView IMG1 = findViewById(R.id.imageView2);
+
+        ImageView IMG1 = (ImageView) findViewById(R.id.imageView2);
 
         Glide.with(this)
                 .load(IMAGE_URL)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(IMG1);
-        ImageView IMG2 = findViewById(R.id.imageView3);
+
+
+        ImageView IMG2 = (ImageView) findViewById(R.id.imageView3);
 
         Glide.with(this)
                 .load(AVATAR_URL)
+                .transform(new CircleCrop())
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(IMG2);
 
         TextView Title = findViewById(R.id.textView3);
