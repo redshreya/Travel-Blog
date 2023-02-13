@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 
 
 public class LoginActivity extends AppCompatActivity {
+
+    private BlogPreferences mausmi;
     private EditText username,password;
     private Button loginButton;
     private ProgressBar progressBar;
@@ -21,6 +23,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mausmi = new BlogPreferences(this);
+        if(mausmi.isLoggedIn()){
+            startMainActivity();
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_login);
         loginButton = findViewById(R.id.button2);
         username = findViewById(R.id.editTextTextPersonName2);
@@ -67,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
+            mausmi.setLogIn(true);
             //your code
             startMainActivity();
             finish();
@@ -76,4 +85,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
 }
