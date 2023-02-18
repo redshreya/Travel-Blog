@@ -3,7 +3,10 @@ package com.example.travel_blog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.travel_blog.http.Blog;
 import com.example.travel_blog.http.BlogArticlesCallback;
 import com.example.travel_blog.http.BlogHttpClient;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -28,7 +32,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
     TextView views;
     TextView caption;
     ImageView IMG1, IMG2;
-
+    ProgressBar loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +47,11 @@ public class BlogDetailsActivity extends AppCompatActivity {
         date = findViewById(R.id.textView2);
         author = findViewById(R.id.textView4);
         stars = findViewById(R.id.ratingBar);
+        stars.setVisibility(View.INVISIBLE);
         textStar = findViewById(R.id.textView5);
         views = findViewById(R.id.textView6);
         caption = findViewById(R.id.textView7);
-
+        loading = findViewById(R.id.progressBar);
         //start data loading
         loadData();
 
@@ -62,19 +67,21 @@ public class BlogDetailsActivity extends AppCompatActivity {
             @Override
             public void onError(){
                 //handle Error
+                runOnUiThread(() -> showErrorSnackbar());
             }
         });
     }
 
     private void showData(Blog blog){
+        loading.setVisibility(View.GONE);
         Title.setText(blog.getTitle());
         date.setText(blog.getDate());
         author.setText(blog.getAuthor().getName());
         textStar.setText(String.valueOf(blog.getRating()));
         views.setText(String.format("(%d views)",blog.getViews()));
-        caption.setText(blog.getDescription());
+        caption.setText(Html.fromHtml(blog.getDescription()));
         stars.setRating(blog.getRating());
-
+        stars.setVisibility(View.VISIBLE);
         Glide.with(this)
                 .load(blog.getImage())
                 .transition(DrawableTransitionOptions.withCrossFade())
@@ -85,5 +92,17 @@ public class BlogDetailsActivity extends AppCompatActivity {
                 .transform(new CircleCrop())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(IMG2);
+    }
+
+    private void showErrorSnackbar(){
+        View rootView = findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(rootView,"Tumhara network fuckedup hai!! use JIO",Snackbar.LENGTH_INDEFINITE);
+        snackbar.setActionTextColor(getResources().getColor(R.color.orange500));
+        snackbar.setAction("Retry",v -> {
+            loadData();
+            snackbar.dismiss();
+            });
+        snackbar.show();
+
     }
 }
