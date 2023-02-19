@@ -22,10 +22,12 @@ import okhttp3.ResponseBody;
 public final class BlogHttpClient {
     public static final BlogHttpClient INSTANCE = new BlogHttpClient();
 
-    public static final String BASE_URL ="https://bitbucket.org/dmytrodanylyk/travel-blog-resources/src/master/";
+    public static final String BASE_URL ="https://bitbucket.org/dmytrodanylyk/travel-blog-resources/";
     public static final String BASE_PATH =
             BASE_URL + "raw/3eede691af3e8ff795bf6d31effb873d484877be";
-    private static final String BLOG_ARTICLES_URL = BASE_URL+BASE_PATH+ "/blog_articles.json";
+    private static final String BLOG_ARTICLES_URL = BASE_URL + BASE_PATH + "/blog_articles.json";
+
+    private static final String URL = "https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3eede691af3e8ff795bf6d31effb873d484877be/blog_articles.json";
 
 
     private Executor executor;
@@ -41,7 +43,8 @@ public final class BlogHttpClient {
     public void loadBlogArticles(BlogArticlesCallback callback){
         Request request = new Request.Builder()
                 .get()
-                .url(BLOG_ARTICLES_URL)
+                // .url(BLOG_ARTICLES_URL)
+                .url(URL)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
