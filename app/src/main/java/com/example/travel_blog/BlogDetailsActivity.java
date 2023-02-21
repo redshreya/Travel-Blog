@@ -21,8 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 public class BlogDetailsActivity extends AppCompatActivity {
-    public static final String IMAGE_URL ="https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3436e16367c8ec2312a0644bebd2694d484eb047/images/sydney_image.jpg";
-    public static final String AVATAR_URL = "https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3436e16367c8ec2312a0644bebd2694d484eb047/avatars/avatar1.jpg";
 
     TextView Title;
     TextView date;
