@@ -18,8 +18,14 @@ import com.example.travel_blog.R;
 import com.example.travel_blog.http.Blog;
 
 public class MainAdapter extends ListAdapter<Blog, MainAdapter.MainViewHolder > {
-    public MainAdapter(){
+    public interface OnItemClickListener {
+        void onItemClicked(Blog blog);
+    }
+
+    private OnItemClickListener clickListener;
+    public MainAdapter(OnItemClickListener clickListener){
         super(DIFF_CALLBACK);
+        this.clickListener = clickListener;
     }
 
     private static final DiffUtil.ItemCallback<Blog> DIFF_CALLBACK = new DiffUtil.ItemCallback<Blog>() {
@@ -40,7 +46,7 @@ public class MainAdapter extends ListAdapter<Blog, MainAdapter.MainViewHolder > 
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_main,parent, false);
-        return new MainViewHolder(view);
+        return new MainViewHolder(view, clickListener);
     }
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position ){
@@ -51,9 +57,11 @@ public class MainAdapter extends ListAdapter<Blog, MainAdapter.MainViewHolder > 
         private TextView textTitle;
         private TextView textDate;
         private ImageView imageAvatar;
+        private Blog blog;
 
-        MainViewHolder(@NonNull View itemView) {
+        MainViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
+            itemView.setOnClickListener(v -> listener.onItemClicked(blog));
             textTitle= itemView.findViewById(R.id.textTitle);
             textDate = itemView.findViewById(R.id.textDate);
             imageAvatar = itemView.findViewById(R.id.imageAvatar);
@@ -61,6 +69,7 @@ public class MainAdapter extends ListAdapter<Blog, MainAdapter.MainViewHolder > 
 
         }
         void bindTo(Blog blog) {
+            this.blog = blog;
             textTitle.setText(blog.getTitle());
             textDate.setText(blog.getDate());
 
