@@ -1,8 +1,12 @@
 package com.example.travel_blog;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,10 +22,12 @@ import com.example.travel_blog.http.BlogArticlesCallback;
 import com.example.travel_blog.http.BlogHttpClient;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class BlogDetailsActivity extends AppCompatActivity {
 
+    private static final String EXTRAS_BLOG = "EXTRAS_BLOG";
     TextView Title;
     TextView date;
     TextView author;
@@ -32,7 +38,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
     ImageView IMG1, IMG2;
     ProgressBar loading;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_details);
 
@@ -50,24 +56,18 @@ public class BlogDetailsActivity extends AppCompatActivity {
         views = findViewById(R.id.textView6);
         caption = findViewById(R.id.textView7);
         loading = findViewById(R.id.progressBar);
-        //start data loading
-        loadData();
+
+        showData(getIntent()
+                .getExtras()
+                .getParcelable(EXTRAS_BLOG));
 
 
     }
-    private void loadData(){
-        BlogHttpClient.INSTANCE.loadBlogArticles(new BlogArticlesCallback() {
-            @Override
-            public void onSuccess(List<Blog> blogList){
-                runOnUiThread(() -> showData(blogList.get(0)));
-            }
 
-            @Override
-            public void onError(){
-                //handle Error
-                runOnUiThread(() -> showErrorSnackbar());
-            }
-        });
+    public static void startBlogDetailsActivity(Activity activity, Blog blog){
+        Intent intent = new Intent(activity, BlogDetailsActivity.class);
+        intent.putExtra(EXTRAS_BLOG, String.valueOf(blog));
+        activity.startActivity(intent);
     }
 
     private void showData(Blog blog){
@@ -92,15 +92,4 @@ public class BlogDetailsActivity extends AppCompatActivity {
                 .into(IMG2);
     }
 
-    private void showErrorSnackbar(){
-        View rootView = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(rootView,"Tumhara network fuckedup hai!! use JIO",Snackbar.LENGTH_INDEFINITE);
-        snackbar.setActionTextColor(getResources().getColor(R.color.orange500));
-        snackbar.setAction("Retry",v -> {
-            loadData();
-            snackbar.dismiss();
-            });
-        snackbar.show();
-
-    }
 }
