@@ -66,7 +66,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
 
     public static void startBlogDetailsActivity(Activity activity, Blog blog){
         Intent intent = new Intent(activity, BlogDetailsActivity.class);
-        intent.putExtra(EXTRAS_BLOG, String.valueOf(blog));
+        intent.putExtra(EXTRAS_BLOG, blog);
         activity.startActivity(intent);
     }
 
