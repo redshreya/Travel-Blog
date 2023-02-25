@@ -1,12 +1,16 @@
 package com.example.travel_blog.http;
 
+import java.text.ParseException;
 import java.util.*;
 
+import android.icu.text.SimpleDateFormat;
 import android.os.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class Blog implements Parcelable {
     private String id;
     private Author author;
@@ -16,6 +20,20 @@ public class Blog implements Parcelable {
     private String description;
     private int views;
     private float rating;
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Long getDateMillis(){
+        try{
+            Date date = dateFormat.parse(getDate());
+            return date != null ? date.getTime(): null;
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     protected Blog(Parcel in){
         id = in.readString();
