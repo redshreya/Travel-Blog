@@ -1,13 +1,18 @@
 package com.example.travel_blog;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.travel_blog.adapter.MainAdapter;
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SORT_DATE = 1;
     private int currentSort = SORT_DATE;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
                 onSortClicked();
             }
             return false;
+        });
+
+        MenuItem searchItem = toolbar.getMenu().findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
+            }
         });
 
         adapter = new MainAdapter(blog -> BlogDetailsActivity.startBlogDetailsActivity(this, blog));
@@ -54,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
     private void loadData() {
         refreshLayout.setRefreshing(true);
         BlogHttpClient.INSTANCE.loadBlogArticles(new BlogArticlesCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onSuccess(List<Blog> blogList) {
                 runOnUiThread(()-> {
                     refreshLayout.setRefreshing(false);
-                    adapter.submitList(blogList);
+                    adapter.setData(blogList);
+                    sortData();
                 });
             }
 
@@ -84,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         snackbar.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void onSortClicked(){
         String[] items = {"Title", "Date"};
         new MaterialAlertDialogBuilder(this)
@@ -95,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 })).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void sortData(){
         if(currentSort == SORT_TITLE) {
             adapter.sortByTitle();
