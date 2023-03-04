@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class BlogDetailsActivity extends AppCompatActivity {
+    private String BASE_URL = "https://bitbucket.org/dmytrodanylyk/travel-blog-resources/raw/3eede691af3e8ff795bf6d31effb873d484877be";
 
     private static final String EXTRAS_BLOG = "EXTRAS_BLOG";
     TextView Title;
@@ -80,13 +82,14 @@ public class BlogDetailsActivity extends AppCompatActivity {
         caption.setText(Html.fromHtml(blog.getDescription()));
         stars.setRating(blog.getRating());
         stars.setVisibility(View.VISIBLE);
+        Log.v("Image URL: ",blog.getImage());
         Glide.with(this)
-                .load(blog.getImage())
+                .load(BASE_URL + blog.getImage())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(IMG1);
 
         Glide.with(this)
-                .load(blog.getAuthor().getAvatar())
+                .load(BASE_URL + blog.getAuthor().getAvatar())
                 .transform(new CircleCrop())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(IMG2);
