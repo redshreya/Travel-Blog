@@ -1,8 +1,17 @@
 package com.example.travel_blog.http;
 
-import java.util.Objects;
+import java.text.ParseException;
+import java.util.*;
 
-public class Blog {
+import android.icu.text.SimpleDateFormat;
+import android.os.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class Blog implements Parcelable {
     private String id;
     private Author author;
     private String title;
@@ -11,6 +20,62 @@ public class Blog {
     private String description;
     private int views;
     private float rating;
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Long getDateMillis(){
+        try{
+            Date date = dateFormat.parse(getDate());
+            return date != null ? date.getTime(): null;
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected Blog(Parcel in){
+        id = in.readString();
+        title = in.readString();
+        date = in.readString();
+        image = in.readString();
+        description = in.readString();
+        views = in.readInt();
+        rating = in.readFloat();
+        author = in.readParcelable(Author.class.getClassLoader());
+
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(date);
+        dest.writeString(image);
+        dest.writeString(description);
+        dest.writeInt(views);
+        dest.writeFloat(rating);
+        dest.writeParcelable(author,0);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Blog> CREATOR = new Creator<Blog>() {
+        @Override
+        public Blog createFromParcel(Parcel in) {
+            return new Blog(in);
+
+        }
+
+        @Override
+        public Blog[] newArray(int size) {
+            return new Blog[size];
+        }
+    };
 
     public String getTitle() {
         return title;
