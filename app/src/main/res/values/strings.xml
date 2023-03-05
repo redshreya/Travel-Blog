@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Travel_Blog</string>
+    <string name="app_name">RoamIO</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="LoginBtn">LOGIN</string>
