@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "584245864491",
-    "project_id": "travelblog-e275c",
-    "storage_bucket": "travelblog-e275c.appspot.com"
+    "project_number": "772771293584",
+    "project_id": "travelblog-63849",
+    "storage_bucket": "travelblog-63849.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:584245864491:android:f2f0e2b29aa240cb42626e",
+        "mobilesdk_app_id": "1:772771293584:android:8bbc9c4cd48c3d227aab15",
         "android_client_info": {
           "package_name": "com.example.travel_blog"
         }
       },
       "oauth_client": [
         {
-          "client_id": "584245864491-o6mtesq2a0d4mju02fldrbh9uc4r16j3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.travel_blog",
-            "certificate_hash": "b9f53204a8429aeb7d817be4f7935a5545401576"
-          }
-        },
-        {
-          "client_id": "584245864491-8cihoqd3isnuhbr2pboh1ramjfhucktp.apps.googleusercontent.com",
+          "client_id": "772771293584-nie7dntqjm2ict20680mc73d0sglghht.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKj-gATTygZorhDj_I0DvKUME5EFvuOhk"
+          "current_key": "AIzaSyDgc7sSObsPSclmFWAdfDqhhl0L5pNp4E8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "584245864491-8cihoqd3isnuhbr2pboh1ramjfhucktp.apps.googleusercontent.com",
+              "client_id": "772771293584-nie7dntqjm2ict20680mc73d0sglghht.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -24,8 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/username"
-                android:inputType="textEmailAddress"
+                android:hint="@string/PhnNo"
+                android:inputType="phone"
                 android:paddingStart="16sp"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -35,32 +35,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.268" />
 
-            <EditText
-                android:id="@+id/editTextTextPassword2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:paddingStart="16sp"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
-                app:layout_constraintVertical_bias="0.075" />
-
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/LoginBtn"
+                android:text="@string/SendOtpBtn"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2"
-                app:layout_constraintVertical_bias="0.269" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+                app:layout_constraintVertical_bias="0.101" />
 
             <ProgressBar
                 android:id="@+id/progressBar2"
@@ -71,6 +57,30 @@
                 app:layout_constraintEnd_toEndOf="@+id/button2"
                 app:layout_constraintStart_toStartOf="@+id/button2"
                 app:layout_constraintTop_toTopOf="@+id/button2" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/OrText"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button2"
+                app:layout_constraintVertical_bias="0.106" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/SignUpBtn"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.16" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

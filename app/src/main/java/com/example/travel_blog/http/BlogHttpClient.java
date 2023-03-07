@@ -31,10 +31,6 @@ import okhttp3.ResponseBody;
 public final class BlogHttpClient {
     public static final BlogHttpClient INSTANCE = new BlogHttpClient();
 
-    // Trying out firebase
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
     public static final String BASE_URL ="https://bitbucket.org/dmytrodanylyk/travel-blog-resources";
     public static final String BASE_PATH ="/raw/3eede691af3e8ff795bf6d31effb873d484877be";
     private static final String BLOG_ARTICLES_URL = BASE_URL + BASE_PATH + "/blog_articles.json";
@@ -51,26 +47,6 @@ public final class BlogHttpClient {
     }
 
     public void loadBlogArticles(BlogArticlesCallback callback){
-
-        // Loading Data from firestore:
-        db.collection("Blogs")
-                        .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()){
-                                            for(DocumentSnapshot document: task.getResult()){
-                                                JSONObject obj = new JSONObject(document.getData());
-                                                BlogData blogData = gson.fromJson(document.getData().toString().replace("\\/","/"), BlogData.class);
-                                                // Log the converted data......
-                                                Log.v("Data Fetched", obj.toString().replace("\\/","/"));
-                                            }
-                                        } else {
-                                            Log.w("Data Fetched", "Error getting document", task.getException());
-                                        }
-                                    }
-                                });
-
 
         Log.v("URL is: ", BLOG_ARTICLES_URL);
         Request request = new Request.Builder()
