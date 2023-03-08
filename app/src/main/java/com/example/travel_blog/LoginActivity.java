@@ -42,13 +42,13 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        /*
+
         if(mausmi.isLoggedIn()){
             startMainActivity();
             finish();
             return;
         }
-         */
+
         setContentView(R.layout.activity_login);
         SendOtpButton = findViewById(R.id.button2);
         SignUpBtn = findViewById(R.id.button);
@@ -104,10 +104,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-
-            // This code needs to be scrapped:
-            mausmi.setLogIn(true);
-
             // Logic for sending otp
             sendOpt();
             //your code

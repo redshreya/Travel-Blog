@@ -24,11 +24,15 @@ public class OTPVerification extends AppCompatActivity {
     private TextView msg;
     private Button verify, resend;
     private String VerificationId;
-
+    private BlogPreferences mausmi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverification);
+
+        // Creating object of Blog Preference to Change login state of user on successful OTP Verification
+        mausmi = new BlogPreferences(this);
+
         verifyCode = findViewById(R.id.editTextNumber);
         verify = findViewById(R.id.button5);
         msg = findViewById(R.id.textView8);
@@ -73,6 +77,7 @@ public class OTPVerification extends AppCompatActivity {
     }
 
     private void startMainActivity() {
+        mausmi.setLogIn(true);
         Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
