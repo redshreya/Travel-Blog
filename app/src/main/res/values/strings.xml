@@ -1,7 +1,26 @@
 <resources>
-    <string name="app_name">Travel_Blog</string>
+    <string name="app_name">RoamIO</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="LoginBtn">LOGIN</string>
+    <string name="fname">Enter First Name</string>
+    <string name="lname">Enter Last Name</string>
+    <string name="PhnNo">Mobile Number</string>
+    <string name="OTP">Verification Code</string>
+    <string name="VerifyBtn">Verify</string>
+    <string name="LoginBtn">Login</string>
+    <string name="Verifyhint">Enter OTP</string>
+    <string name="SendOtpBtn">Send OTP</string>
+    <string name="SignUpBtn">Sign Up</string>
+    <string name="SignInBtn">Sign In</string>
+    <string name="OrText">Or</string>
     <string name="m1">Fuck World!!!!! YO.</string>
+    <string name="title_activity_signup">Signup</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

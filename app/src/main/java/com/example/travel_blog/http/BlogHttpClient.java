@@ -5,10 +5,19 @@ import android.view.textclassifier.TextLinks;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -38,6 +47,7 @@ public final class BlogHttpClient {
     }
 
     public void loadBlogArticles(BlogArticlesCallback callback){
+
         Log.v("URL is: ", BLOG_ARTICLES_URL);
         Request request = new Request.Builder()
                 .get()
