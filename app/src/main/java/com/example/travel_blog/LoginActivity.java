@@ -121,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
+                mobilenumber.setEnabled(true);
                 progressBar.setVisibility(View.GONE);
                 SendOtpButton.setVisibility(View.VISIBLE);
                 SignUpBtn.setVisibility(View.VISIBLE);
