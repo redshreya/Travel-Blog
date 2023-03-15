@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             if(item.getItemId() == R.id.logout){
                 FirebaseAuth.getInstance().signOut();
                 mausmi.setLogIn(false);
+                mausmi.setUserEmail("");
+                mausmi.setUserName("");
+                mausmi.setUserMob("");
                 new AlertDialog.Builder(this)
                         .setTitle("Signed Out")
                         .setMessage("Dhanyawad, hamara app use karne ke liye..")
