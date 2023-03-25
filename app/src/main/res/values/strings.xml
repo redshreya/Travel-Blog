@@ -2,8 +2,8 @@
     <string name="app_name">RoamIO</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="fname">Enter First Name</string>
-    <string name="lname">Enter Last Name</string>
+    <string name="name">Enter your Name</string>
+    <string name="email">Enter your Email</string>
     <string name="PhnNo">Mobile Number</string>
     <string name="OTP">Verification Code</string>
     <string name="VerifyBtn">Verify</string>

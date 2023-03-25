@@ -15,11 +15,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
+    // Object for accessing Database
+    FirebaseFirestore database;
     private BlogPreferences mausmi;
     private EditText mobilenumber;
     private Button SendOtpButton;
@@ -42,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
         if(mausmi.isLoggedIn()){
+            Log.v("Login State", mausmi.getUserName());
             startMainActivity();
             finish();
             return;
@@ -77,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginClicked(){
         String number = mobilenumber.getText().toString();
         if (number.isEmpty()) {
-            mobilenumber.setError("Username must not be empty");
+            mobilenumber.setError("Mobile Number must not be empty");
         } else if (number.length() != 10){
             showErrorDialog();
         } else {
@@ -102,13 +111,54 @@ public class LoginActivity extends AppCompatActivity {
         SignUpBtn.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
+        checkUser();
+        /*
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             // Logic for sending otp
             sendOpt();
-            //your code
-            //startMainActivity();
         }, 2000);
+         */
+    }
+
+    private void checkUser() {
+        // Creating Database instance
+        database = FirebaseFirestore.getInstance();
+        CollectionReference users = database.collection("users");
+        Query checkUser = users.whereEqualTo("mobile", mobilenumber.getText().toString().trim());
+        checkUser
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult().isEmpty()){
+                                new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Invalid Mobile Number")
+                                        .setMessage("Please Sign Up :)")
+                                        .setPositiveButton("OK", (dialog, which) -> {
+                                            dialog.dismiss();
+                                            mobilenumber.setEnabled(true);
+                                            progressBar.setVisibility(View.GONE);
+                                            SendOtpButton.setVisibility(View.VISIBLE);
+                                            SignUpBtn.setVisibility(View.VISIBLE);
+                                        })
+                                        .show();
+                            }
+                            else{
+                                for(QueryDocumentSnapshot document : task.getResult()){
+                                    Users user = document.toObject(Users.class);
+                                    mausmi.setUserName(user.name);
+                                    mausmi.setUserMob(user.mobile);
+                                    mausmi.setUserEmail(user.email);
+                                }
+                                sendOpt();
+                            }
+                        } else {
+
+                        }
+                    }
+                });
     }
 
     private void sendOpt() {

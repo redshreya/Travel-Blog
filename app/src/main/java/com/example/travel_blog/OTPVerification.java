@@ -86,7 +86,7 @@ public class OTPVerification extends AppCompatActivity {
 
     private void startMainActivity() {
         mausmi.setLogIn(true);
-        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
