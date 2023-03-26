@@ -76,7 +76,7 @@ public final class BlogHttpClient {
                         }
                     }
                 } catch (IOException e){
-                    Log.e("BlogHttpClient","API Fucked up..." + e.toString(),e);
+                    Log.e("BlogHttpClient","API Not Responding" + e.toString(),e);
                 }
 
             }

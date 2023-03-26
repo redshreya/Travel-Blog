@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 mausmi.setUserMob("");
                 new AlertDialog.Builder(this)
                         .setTitle("Signed Out")
-                        .setMessage("Dhanyawad, hamara app use karne ke liye..")
+                        .setMessage("See you soon ;)")
                         .setPositiveButton("OK", (dialog, which) -> {
                             dialog.dismiss();
                             Intent intent = new Intent(this, LoginActivity.class);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showErrorSnackBar(){
         View rootView = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(rootView,"Tumhara network fuckedup hai!! use JIO",Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(rootView,"Please Check Your Internet Connection.",Snackbar.LENGTH_INDEFINITE);
         snackbar.setActionTextColor(getResources().getColor(R.color.orange500));
         snackbar.setAction("Retry",v -> {
             loadData();

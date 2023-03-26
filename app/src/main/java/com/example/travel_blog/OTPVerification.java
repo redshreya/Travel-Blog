@@ -61,7 +61,7 @@ public class OTPVerification extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(verifyCode.getText().toString().trim().isEmpty()){
-                    verifyCode.setError("Mitrooo OTP input kar do....");
+                    verifyCode.setError("Please Enter The OTP Received.");
                 } else{
                     if(VerificationId != null){
                         String code = verifyCode.getText().toString().trim();
@@ -74,7 +74,7 @@ public class OTPVerification extends AppCompatActivity {
                                 if(task.isSuccessful()) {
                                     startMainActivity();
                                 } else{
-                                    Toast.makeText(OTPVerification.this, "Kya yaar tu galat OTP daal ra hai Chasma Pehen!!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(OTPVerification.this, "Please Enter The Correct OTP.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
