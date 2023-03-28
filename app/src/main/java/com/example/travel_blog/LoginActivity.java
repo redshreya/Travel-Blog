@@ -1,6 +1,7 @@
 package com.example.travel_blog;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,9 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -43,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button SendOtpButton;
     private ProgressBar progressBar;
     private Button SignUpBtn;
+
+    private ImageButton GoogleLogInBtn,FacebookLogInBtn;
+    private GoogleSignInOptions googleSignInOptions;
+    private GoogleSignInClient googleSignInClient;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         mausmi = new BlogPreferences(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+
 
         if(mausmi.isLoggedIn()){
             Log.v("Login State", mausmi.getUserName());
@@ -63,6 +81,17 @@ public class LoginActivity extends AppCompatActivity {
         SignUpBtn = findViewById(R.id.button);
         mobilenumber = findViewById(R.id.editTextTextPersonName2);
         progressBar = findViewById(R.id.progressBar2);
+        TextView or = findViewById(R.id.textView);
+        GoogleLogInBtn = findViewById(R.id.imageButton2);
+        FacebookLogInBtn = findViewById(R.id.imageButton3);
+
+        GoogleLogInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
+
         SendOtpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,5 +235,29 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void signIn(){
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent,1000);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1000){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                task.getResult(ApiException.class);
+                GoogleSignInAccount user = GoogleSignIn.getLastSignedInAccount(this);
+                if(user != null){
+                    String personName = user.getDisplayName();
+                    String email = user.getEmail();
+                    Log.v("personName" , personName+" "+email);
+                }
+                startMainActivity();
+            }
+            catch (ApiException e){
+                Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
