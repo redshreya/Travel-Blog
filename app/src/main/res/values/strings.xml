@@ -13,7 +13,7 @@
     <string name="SignUpBtn">Sign Up</string>
     <string name="SignInBtn">Sign In</string>
     <string name="OrText">Or</string>
-    <string name="m1">Fuck World!!!!! YO.</string>
+    <string name="m1">Hello World!!!!!</string>
     <string name="title_activity_signup">Signup</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -23,4 +23,11 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="Home">Home</string>
+    <string name="Add">Add Blog</string>
+    <string name="Profile">Profile</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_m1">User Name</string>
+    <string name="profile_m2">User Email</string>
+    <string name="profile_m3">User Mobile Number</string>
 </resources>

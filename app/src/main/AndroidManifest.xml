@@ -34,6 +34,12 @@
             android:exported="false"
             android:label="@string/title_activity_signup" />
         <activity
+            android:name=".AddBlog"
+            android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
+        <activity
             android:name=".BlogDetailsActivity"
             android:exported="false">
             <meta-data
@@ -49,7 +55,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

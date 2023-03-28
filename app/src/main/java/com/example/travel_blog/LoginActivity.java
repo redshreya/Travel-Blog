@@ -62,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mausmi = new BlogPreferences(this);
-
         mAuth = FirebaseAuth.getInstance();
 
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -141,13 +140,6 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         checkUser();
-        /*
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            // Logic for sending otp
-            sendOpt();
-        }, 2000);
-         */
     }
 
     private void checkUser() {

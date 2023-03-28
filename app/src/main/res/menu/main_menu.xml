@@ -5,7 +5,9 @@
     <item android:title="Sort"
         android:id="@+id/sort"
         app:showAsAction="never"/>
-
+    <item android:title="About Us"
+        android:id="@+id/aboutus"
+        app:showAsAction="never"/>
     <item android:title="Log Out"
         android:id="@+id/logout"
         app:showAsAction="never"/>
