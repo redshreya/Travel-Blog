@@ -1,6 +1,7 @@
 package com.example.travel_blog;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.travel_blog.adapter.MainAdapter;
 import com.example.travel_blog.http.Blog;
@@ -22,6 +25,7 @@ import com.example.travel_blog.http.BlogHttpClient;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -32,17 +36,36 @@ public class MainActivity extends AppCompatActivity {
     private static final int SORT_TITLE = 0;
     private static final int SORT_DATE = 1;
     private int currentSort = SORT_DATE;
+    private BlogPreferences mausmi;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mausmi = new BlogPreferences(this);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar1);
         toolbar.setOnMenuItemClickListener(item -> {
             if(item.getItemId() == R.id.sort){
                 onSortClicked();
+            }
+            if(item.getItemId() == R.id.logout){
+                FirebaseAuth.getInstance().signOut();
+                mausmi.setLogIn(false);
+                mausmi.setUserEmail("");
+                mausmi.setUserName("");
+                mausmi.setUserMob("");
+                new AlertDialog.Builder(this)
+                        .setTitle("Signed Out")
+                        .setMessage("See you soon ;)")
+                        .setPositiveButton("OK", (dialog, which) -> {
+                            dialog.dismiss();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .show();
             }
             return false;
         });
@@ -98,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showErrorSnackBar(){
         View rootView = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(rootView,"Tumhara network fuckedup hai!! use JIO",Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(rootView,"Please Check Your Internet Connection.",Snackbar.LENGTH_INDEFINITE);
         snackbar.setActionTextColor(getResources().getColor(R.color.orange500));
         snackbar.setAction("Retry",v -> {
             loadData();
