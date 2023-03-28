@@ -8,4 +8,10 @@
     <style name="MainTheme" parent="AppTheme">
         <item name="android:editTextColor">@android:color/white</item>
     </style>
+
+
+    <style name="toolbartext" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16dp</item>
+    </style>
+
 </resources>

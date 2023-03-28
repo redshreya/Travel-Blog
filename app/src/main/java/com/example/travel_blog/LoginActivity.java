@@ -24,11 +24,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mausmi = new BlogPreferences(this);
-        if(mausmi.isLoggedIn()){
+        /*if(mausmi.isLoggedIn()){
             startMainActivity();
             finish();
             return;
-        }
+        }*/
+
         setContentView(R.layout.activity_login);
         loginButton = findViewById(R.id.button2);
         username = findViewById(R.id.editTextTextPersonName2);

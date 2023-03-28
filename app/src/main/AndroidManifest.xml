@@ -4,16 +4,23 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/travel_blog"
+        android:icon="@drawable/roamio"
         android:label="@string/app_name"
         android:roundIcon="@drawable/travel_blog"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".AddBlog"
+            android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
         <activity
             android:name=".BlogDetailsActivity"
             android:exported="false">
@@ -30,7 +37,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +50,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/MainTheme"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/MainTheme" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.travel_blog;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -44,7 +45,15 @@ public class BlogDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_details);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                onBackPressed();
+            }
+        });
         IMG1 = (ImageView) findViewById(R.id.imageView2);
 
         IMG2 = (ImageView) findViewById(R.id.imageView3);
