@@ -33,7 +33,7 @@ public class BlogPreferences {
     }
 
     public String getUserMob(){
-        return sharedPreferences.getString(UserEmail, "");
+        return sharedPreferences.getString(UserMob, "");
     }
 
     public void setUserName(String name){
@@ -44,6 +44,7 @@ public class BlogPreferences {
     }
 
     public void setUserMob(String mob){
+
         sharedPreferences.edit().putString(UserMob,mob).apply();
     }
 }

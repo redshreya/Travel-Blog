@@ -24,6 +24,11 @@ import com.example.travel_blog.adapter.MainAdapter;
 import com.example.travel_blog.http.Blog;
 import com.example.travel_blog.http.BlogArticlesCallback;
 import com.example.travel_blog.http.BlogHttpClient;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int SORT_DATE = 1;
     private int currentSort = SORT_DATE;
     private BlogPreferences mausmi;
+    private GoogleSignInOptions googleSignInOptions;
+    private GoogleSignInClient googleSignInClient;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -86,21 +93,31 @@ public class MainActivity extends AppCompatActivity {
                 onSortClicked();
             }
             if(item.getItemId() == R.id.logout){
-                FirebaseAuth.getInstance().signOut();
-                mausmi.setLogIn(false);
-                mausmi.setUserEmail("");
-                mausmi.setUserName("");
-                mausmi.setUserMob("");
-                new AlertDialog.Builder(this)
-                        .setTitle("Signed Out")
-                        .setMessage("See you soon ;)")
-                        .setPositiveButton("OK", (dialog, which) -> {
-                            dialog.dismiss();
-                            Intent intent = new Intent(this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        })
-                        .show();
+                googleSignInOptions = new GoogleSignInOptions.Builder()
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+                googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        FirebaseAuth.getInstance().signOut();
+                        mausmi.setLogIn(false);
+                        mausmi.setUserEmail("");
+                        mausmi.setUserName("");
+                        mausmi.setUserMob("");
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Signed Out")
+                                .setMessage("See you soon ;)")
+                                .setPositiveButton("OK", (dialog, which) -> {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .show();
+                    }
+                });
             }
             return false;
         });

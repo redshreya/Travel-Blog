@@ -4,6 +4,9 @@ public class Users {
     String name, email, mobile;
 
     public Users() {
+        this.name = "";
+        this.email = "";
+        this.mobile = "";
     }
 
     public Users(String name, String email, String mobile) {

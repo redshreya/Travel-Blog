@@ -30,4 +30,5 @@
     <string name="profile_m1">User Name</string>
     <string name="profile_m2">User Email</string>
     <string name="profile_m3">User Mobile Number</string>
+    <string name="googlesingin">Sign in with Google</string>
 </resources>

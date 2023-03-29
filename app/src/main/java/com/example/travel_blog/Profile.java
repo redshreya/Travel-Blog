@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -20,6 +21,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class Profile extends AppCompatActivity {
@@ -36,30 +39,39 @@ public class Profile extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mausmi = new BlogPreferences(this);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         username = findViewById(R.id.textView11);
         useremail = findViewById(R.id.textView12);
         userno = findViewById(R.id.textView13);
-
+        username.setText(R.string.profile_m1);
+        useremail.setText(R.string.profile_m2);
+        userno.setText(R.string.profile_m3);
+        FirebaseUser acct = FirebaseAuth.getInstance().getCurrentUser();
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
             Uri personPhoto = acct.getPhotoUrl();
             ImageView imageView = findViewById(R.id.imageView);
+            Toast.makeText(this, acct.getDisplayName()+" "+personEmail, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, personPhoto.toString(), Toast.LENGTH_SHORT).show();
             username.setText(personName);
             useremail.setText(personEmail);
             userno.setText("");
             //imageView.setImageResource(personPhoto);
             Glide.with(this)
-                    .load(personPhoto)
+                    .load(personPhoto.toString())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .transform(new CircleCrop())
                     .into(imageView);
 
         }else{
-            username.setText(mausmi.getUserName());
-            useremail.setText(mausmi.getUserEmail());
-            userno.setText(mausmi.getUserMob());
+            String name = mausmi.getUserName();
+            String email = mausmi.getUserEmail();
+            String mobile = mausmi.getUserMob();
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageResource(R.drawable.baseline_person_24);
+            username.setText(name);
+            useremail.setText(email);
+            userno.setText(mobile);
         }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

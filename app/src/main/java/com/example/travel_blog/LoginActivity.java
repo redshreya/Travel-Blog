@@ -27,7 +27,11 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -53,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button SignUpBtn;
 
-    private ImageButton GoogleLogInBtn,FacebookLogInBtn;
+    //private ImageButton GoogleLogInBtn,FacebookLogInBtn;
+    private TextView GoogleLogInBtn;
     private GoogleSignInOptions googleSignInOptions;
     private GoogleSignInClient googleSignInClient;
 
@@ -63,9 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mausmi = new BlogPreferences(this);
         mAuth = FirebaseAuth.getInstance();
-
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
 
 
         if(mausmi.isLoggedIn()){
@@ -81,8 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         mobilenumber = findViewById(R.id.editTextTextPersonName2);
         progressBar = findViewById(R.id.progressBar2);
         TextView or = findViewById(R.id.textView);
-        GoogleLogInBtn = findViewById(R.id.imageButton2);
-        FacebookLogInBtn = findViewById(R.id.imageButton3);
+        GoogleLogInBtn = findViewById(R.id.textView14);
 
         GoogleLogInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                                     mausmi.setUserName(user.name);
                                     mausmi.setUserMob(user.mobile);
                                     mausmi.setUserEmail(user.email);
+                                    Toast.makeText(LoginActivity.this, mausmi.getUserName()+" "+mausmi.getUserMob(), Toast.LENGTH_SHORT).show();
                                 }
                                 sendOpt();
                             }
@@ -228,8 +230,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(){
+        googleSignInOptions = new GoogleSignInOptions.Builder()
+                                    .requestIdToken(getString(R.string.default_web_client_id))
+                                    .requestEmail()
+                                    .build();
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent,1000);
+        startActivityForResult(signInIntent,1000 );
     }
 
     @Override
@@ -238,18 +245,44 @@ public class LoginActivity extends AppCompatActivity {
         if(requestCode==1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                task.getResult(ApiException.class);
-                GoogleSignInAccount user = GoogleSignIn.getLastSignedInAccount(this);
+                GoogleSignInAccount user = task.getResult(ApiException.class);
+                //task.getResult(ApiException.class);
+                //GoogleSignInAccount user = GoogleSignIn.getLastSignedInAccount(this);
+
                 if(user != null){
-                    String personName = user.getDisplayName();
-                    String email = user.getEmail();
-                    Log.v("personName" , personName+" "+email);
+                    AuthCredential credential = GoogleAuthProvider.getCredential(user.getIdToken(), null);
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(intent);
+                                        onStart();
+
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
-                startMainActivity();
             }
             catch (ApiException e){
                 Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            String personName = user.getDisplayName();
+            String email = user.getEmail();
+            Log.v("personName" , personName+" "+email);
+            mausmi.setLogIn(true);
+            startMainActivity();
         }
     }
 }
